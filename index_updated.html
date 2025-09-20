@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bienvenue ✨</title>
+  <meta name="description" content="Un petit rébus pour annoncer la naissance de notre trésor. Cliquez sur Reveal !" />
+
+  <!-- Social / link preview (empêche l'affichage 'Bienvenue Avishai') -->
+  <meta property="og:title" content="Bienvenue ✨">
+  <meta property="og:description" content="Un petit rébus pour annoncer la naissance de notre trésor. Cliquez sur Reveal !">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Bienvenue ✨">
+  <meta name="twitter:description" content="Un petit rébus pour annoncer la naissance de notre trésor. Cliquez sur Reveal !">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg1:#5c4eff;
+      --bg2:#8a5cf6;
+      --bg3:#5b2fca;
+      --card:#ffffff;
+      --ink:#1e1b2e;
+      --muted:#6b6b86;
+      --accent:#ff6a95;
+      --cta:#2b9240;
+      --cta-ink:#ffffff;
+      --ring:#e8e8ff;
+      --shadow:0 10px 25px rgba(51,30,132,.20), 0 5px 12px rgba(18, 18, 64, .12);
+      --radius:22px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji", sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(1200px 800px at 0% -10%, rgba(255,255,255,.12), transparent 60%),
+        radial-gradient(1000px 700px at 100% 10%, rgba(255,255,255,.10), transparent 60%),
+        linear-gradient(135deg, var(--bg1), var(--bg2) 40%, var(--bg3));
+      display:grid;
+      place-items:center;
+      padding:24px;
+    }
+    .frame{
+      width:min(980px, 100%);
+      background:linear-gradient(#fafaff, #ffffff);
+      border-radius:28px;
+      padding:28px;
+      box-shadow:var(--shadow);
+      border:1px solid var(--ring);
+    }
+    header{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      justify-content:center;
+      margin-bottom:18px;
+    }
+    header .logo{
+      font-size:24px;
+      filter:drop-shadow(0 2px 0 rgba(0,0,0,.05));
+    }
+    header h1{
+      font-family:"Baloo 2", cursive;
+      font-size:34px;
+      line-height:1;
+      margin:0;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    header p{
+      text-align:center;
+      color:var(--muted);
+      margin:.35rem 0 0 0;
+      font-size:15px;
+    }
+    .card{
+      background:var(--card);
+      border-radius:20px;
+      border:1px solid var(--ring);
+      padding:22px;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(5, minmax(0,1fr));
+      gap:18px;
+      align-items:stretch;
+    }
+    .tile{
+      background:#fff;
+      border:1px solid var(--ring);
+      border-radius:16px;
+      padding:14px 12px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      min-height:124px;
+    }
+    .tile .big{
+      font-size:44px;
+      line-height:1;
+      margin:6px 0 2px;
+    }
+    .tile .big.letter{ color:#ff3b3b; font-weight:800; font-family:"Baloo 2", cursive; font-size:52px;}
+    .tile small{
+      color:var(--muted);
+      font-size:12px;
+    }
+    .equals{
+      font-size:40px;
+      color:#8b8ba7;
+      font-weight:700;
+    }
+
+    .cta-zone{
+      margin-top:18px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:12px;
+      flex-wrap:wrap;
+      padding:16px;
+      border-radius:14px;
+      background: #fff7cc;
+      border: 1px dashed #f1d27a;
+    }
+    button.reveal{
+      appearance:none;
+      border:0;
+      background:var(--cta);
+      color:var(--cta-ink);
+      font-weight:700;
+      letter-spacing:.2px;
+      padding:14px 22px;
+      border-radius:12px;
+      cursor:pointer;
+      box-shadow:0 8px 18px rgba(43,146,64,.25);
+      transition: transform .05s ease, box-shadow .2s ease;
+      font-size:16px;
+    }
+    button.reveal:active{ transform: translateY(1px); box-shadow:0 4px 10px rgba(43,146,64,.25); }
+    button.reveal:focus{ outline:3px solid #b7f3c4; outline-offset:2px; }
+
+    /* Reveal panel */
+    .reveal-panel{
+      display:none;
+      margin-top:18px;
+    }
+    .reveal-panel.active{ display:block; }
+    .reveal-card{
+      display:grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap:20px;
+      align-items:center;
+      background:#ffffff;
+      padding:18px;
+      border:1px solid var(--ring);
+      border-radius:18px;
+    }
+    .reveal-card img{
+      width:100%;
+      height:auto;
+      border-radius:14px;
+      object-fit:cover;
+      border:1px solid var(--ring);
+      box-shadow:var(--shadow);
+      background:#f6f6ff;
+    }
+    .message h2{
+      margin:0 0 8px 0;
+      font-family:"Baloo 2", cursive;
+      font-size:28px;
+    }
+    .message p{
+      margin:.35rem 0;
+      font-size:16px;
+      line-height:1.6;
+    }
+    .gift{
+      margin-top:12px;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      text-decoration:none;
+      background:#111827;
+      color:#fff;
+      padding:12px 16px;
+      border-radius:10px;
+      font-weight:700;
+      box-shadow:0 8px 18px rgba(0,0,0,.2);
+    }
+    .gift:focus{ outline:3px solid #a7d2ff; outline-offset:3px; }
+    .gift span{ opacity:.85; font-weight:600; }
+
+    @media (max-width: 860px){
+      .grid{ grid-template-columns: repeat(5, 1fr); gap:12px; }
+      .tile{ min-height:104px; }
+      .reveal-card{ grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px){
+      .grid{ grid-template-columns: repeat(3, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <main class="frame">
+    <header>
+      <div class="logo" aria-hidden="true">🎯</div>
+      <div>
+        <h1>Rébus Mystère <span aria-hidden="true">✨</span></h1>
+        <p>Déchiffrez ce rébus pour découvrir le prénom de notre petit trésor&nbsp;!</p>
+      </div>
+    </header>
+
+    <section class="card" id="puzzle" aria-describedby="helper">
+      <div class="grid" role="list" aria-label="Éléments du rébus">
+        <div class="tile" role="listitem" aria-label="A, première lettre">
+          <div class="big letter">A</div>
+          <small>Première lettre</small>
+        </div>
+        <div class="tile" role="listitem" aria-label="Cœur, pour 'vie'">
+          <div class="big" aria-hidden="true">❤️</div>
+          <div style="font-weight:800; margin-top:4px;">VIE</div>
+          <small>l'existence, cœur ou 'vie'</small>
+        </div>
+        <div class="tile" role="listitem" aria-label="Chut, pour le son 'ch'">
+          <div class="big" aria-hidden="true">🤫</div>
+          <div style="font-weight:800; margin-top:4px;">CH</div>
+          <small>son « chut ! »</small>
+        </div>
+        <div class="tile" role="listitem" aria-label="Ail, pour 'aï'">
+          <div class="big" aria-hidden="true">🧄</div>
+          <div style="font-weight:800; margin-top:4px;">AIL</div>
+          <small>(prononcé «&nbsp;aï&nbsp;»)</small>
+        </div>
+        <div class="tile" role="listitem" aria-label="Égal à ?">
+          <div class="big equals">=</div>
+          <div style="font-weight:800; margin-top:4px; color:#ff2d55;">?</div>
+          <small>La réponse</small>
+        </div>
+      </div>
+
+      <div class="cta-zone" id="helper">
+        <strong>Tu as trouvé ?</strong>
+        <button class="reveal" id="revealBtn" aria-controls="revealPanel" aria-expanded="false">Reveal</button>
+      </div>
+    </section>
+
+    <section class="reveal-panel" id="revealPanel" aria-live="polite">
+      <div class="reveal-card">
+        <picture>
+          <!-- Place l'image "images/avishai.jpg" dans ton dépôt -->
+          <img src="images/avishai.jpg" alt="Photo de bébé Avishai" loading="lazy">
+        </picture>
+        <div class="message">
+          <h2>Bienvenue ✨</h2>
+          <p>Je m’appelle <strong>Avishai</strong>, enchanté 😉. Mon prénom veut dire «&nbsp;cadeau de mon père&nbsp;».</p>
+          <p>Je suis né le <strong>18&nbsp;septembre</strong> à <strong>11&nbsp;h&nbsp;42</strong> et je fais <strong>4,4&nbsp;kg</strong>.</p>
+          <p>Vous pouvez me laisser un cadeau ici&nbsp;:</p>
+          <p>
+            <a class="gift" href="https://www.mesenvies.fr/liste-naissance/28798368" target="_blank" rel="noopener noreferrer" aria-label="Ouvrir la liste de naissance sur MesEnvies.fr">
+              🎁&nbsp; Voir la liste de naissance
+            </a>
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const btn = document.getElementById('revealBtn');
+    const panel = document.getElementById('revealPanel');
+
+    function reveal(){
+      panel.classList.add('active');
+      btn.setAttribute('aria-expanded', 'true');
+      panel.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+    btn.addEventListener('click', reveal);
+  </script>
+</body>
+</html>
